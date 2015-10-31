@@ -1,0 +1,23 @@
+#search {
+    border-right: 3px solid black;
+    float: left;
+    width: 50%;
+}
+
+#map {
+    background-color: black;
+    float: right;
+    width: 50%;
+}
+
+body {
+    margin: 10px;
+    padding: 10px;
+}
+form {
+    max-width: 480px;
+    margin: auto;
+}
+.form-group >[class*="col-"] + .ws-errorbox {
+    padding: 0 15px;
+}
