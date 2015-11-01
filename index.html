@@ -2,6 +2,10 @@
 <html>
 <head lang="en">
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8FCxwxSQzmmfOW3ou96ahIXA8g0rOccE&libraries=places"></script>-->
@@ -18,30 +22,48 @@
 <body>
 
 <div id="search">
-    <form data-toggle="validator" role="form">
 
-        <div class="form-group has-feedback">
-            <label for="inputRadius" class="control-label">Suchradius in Meter</label>
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-dot-circle-o"></i></span>
-                <input type="text" pattern="\b0*([1-9][0-9]{0,3}|[1-4][0-9]{4}|50000)\b" maxlength="15" class="form-control" id="inputRadius" placeholder="">
-            </div>
-            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-            <span class="help-block with-errors">Radius muss zwischen 1 und 50000 sein</span>
+    <div id="tabs">
+        <ul>
+            <li><a href="#tabs-1">Search Location</a></li>
+            <li><a href="#tabs-2">Nearby</a></li>
+            <li><a href="#tabs-3">Last used Locations</a></li>
+        </ul>
+
+        <div id="tabs-1">
+
+            <form data-toggle="validator" role="form">
+
+                <div class="form-group has-feedback">
+                    <label for="inputRadius" class="control-label">Suchradius in Meter</label>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-dot-circle-o"></i></span>
+                        <input type="text" pattern="\b0*([1-9][0-9]{0,3}|[1-4][0-9]{4}|50000)\b" maxlength="15" class="form-control" id="inputRadius" placeholder="">
+                    </div>
+                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    <span class="help-block with-errors">Radius muss zwischen 1 und 50000 sein</span>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="terms">
+                            Geöffnet
+                        </label>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+
         </div>
-        <div class="form-group">
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" id="terms">
-                    Geöffnet
-                </label>
-                <div class="help-block with-errors"></div>
-            </div>
+        <div id="tabs-2">
         </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Submit</button>
+        <div id="tabs-3">
         </div>
-    </form>
+    </div>
+
 </div>
 <div id="mapView">
     <div id="map"></div>
