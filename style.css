@@ -1,18 +1,21 @@
 #search {
     border-right: 3px solid black;
     float: left;
-    width: 50%;
+    width: 30%;
 }
 
-#map {
-    background-color: black;
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+#mapView {
     float: right;
-    width: 50%;
+    width: 70%;
+    height: 100%;
 }
-
-body {
-    margin: 10px;
-    padding: 10px;
+#map {
+    height: 100%;
 }
 form {
     max-width: 480px;
