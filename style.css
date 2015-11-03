@@ -24,3 +24,9 @@ form {
     padding: 0 15px;
 }
 
+.cross:hover{
+    color: blue;
+}
+.star:hover{
+    color: yellow;
+}

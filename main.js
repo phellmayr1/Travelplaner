@@ -4,6 +4,8 @@ $(function () {
 
 var map;
 
+var placesNearby = [];
+
 
 function initMap() {
 
@@ -74,7 +76,13 @@ function createMarkers(places) {
             position: place.geometry.location
         });
 
-        placesList.innerHTML += '<li>' + place.name + '</li>';
+        placesNearby.push(marker);
+
+        var placeSelectedButtonStr = '<id class="fa fa-crosshairs cross" onclick="placeSelected(' + placesNearby.length + ')"/>';
+
+
+        $('#resultsTable').append('<tr id="' + placesNearby.length + '"><td>' + place.name + '</td><td>'
+        + placeSelectedButtonStr + '</td> <td>' + '<i class="fa fa-star star">' + '</td> </tr>');
 
         bounds.extend(place.geometry.location);
     }
@@ -110,4 +118,7 @@ function checkButtonVisible() {
     } else {
         button.disabled = true;
     }
+}
+function placeSelected(id){
+    alert("selected"+id);
 }
