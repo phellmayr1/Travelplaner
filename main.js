@@ -4,6 +4,7 @@ $(function () {
 
 var map;
 
+
 function initMap() {
 
     map = new google.maps.Map(document.getElementById('map'), {
@@ -24,11 +25,6 @@ function initMap() {
             infoWindow.setContent('You are here');
             map.setCenter(pos);
 
-            var service = new google.maps.places.PlacesService(map);
-            service.nearbySearch({
-                location: {lat: pos.lat, lng: pos.lng},
-                radius: 50000
-            }, processResults);
 
         }, function () {
             handleLocationError(true, infoWindow, map.getCenter());
@@ -83,4 +79,35 @@ function createMarkers(places) {
         bounds.extend(place.geometry.location);
     }
     map.fitBounds(bounds);
+}
+
+function startNearbySearch() {
+    var radius = ( $('#inputRadius').val());
+    var isOpen;
+
+    if (radius == "" || radius == 0) {
+        radius = 10000;
+    }
+
+    if ($('#openNow').is(":checked")) {
+        isOpen = true;
+    } else {
+        isOpen = false;
+    }
+    var service = new google.maps.places.PlacesService(map);
+    service.nearbySearch({
+        location: {lat: pos.lat, lng: pos.lng},
+        radius: radius,
+        openNow: isOpen
+    }, processResults);
+}
+
+function checkButtonVisible() {
+    var radius = ( $('#inputRadius').val());
+    var button = document.getElementById('searchNearby');
+    if ((radius >= 1 && radius <= 50000) || radius == '') {
+        button.disabled = false;
+    } else {
+        button.disabled = true;
+    }
 }
