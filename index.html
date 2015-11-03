@@ -21,7 +21,7 @@
 </head>
 <body>
 
-<div id="search">
+<div id="search" style="overflow-y: auto; height:100%;">
 
     <div id="tabs">
         <ul>
@@ -56,6 +56,12 @@
                     <button id="searchNearby" onclick="startNearbySearch()" class="btn btn-primary">Search</button>
                 </div>
             </form>
+
+            <div id="right-panel">
+                <h2>Results</h2>
+                <ul id="places"></ul>
+                <button id="more">More results</button>
+            </div>
 
         </div>
         <div id="tabs-2">
