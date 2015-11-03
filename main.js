@@ -1,22 +1,20 @@
-$(function() {
-    $( "#tabs" ).tabs();
+$(function () {
+    $("#tabs").tabs();
 });
 
 var map;
-var infowindow;
-var pos;
 
 function initMap() {
-    alert("init");
+
     map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: -34.397, lng: 150.644},
-        zoom: 6
+        center: {lat: -38.321, lng: 172.462},
+        zoom: 10
     });
     infoWindow = new google.maps.InfoWindow({map: map});
 
-    // Try HTML5 geolocation.
+
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
+        navigator.geolocation.getCurrentPosition(function (position) {
             pos = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
@@ -29,47 +27,60 @@ function initMap() {
             var service = new google.maps.places.PlacesService(map);
             service.nearbySearch({
                 location: {lat: pos.lat, lng: pos.lng},
-                radius: 50000,
-                openNow: true
-            }, callback);
+                radius: 50000
+            }, processResults);
 
-        }, function() {
+        }, function () {
             handleLocationError(true, infoWindow, map.getCenter());
         });
     } else {
         // Browser doesn't support Geolocation
         handleLocationError(false, infoWindow, map.getCenter());
     }
-
 }
 
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-    infoWindow.setPosition(pos);
-    infoWindow.setContent(browserHasGeolocation ?
-        'Error: The Geolocation service failed.' :
-        'Error: Your browser doesn\'t support geolocation.');
-}
+function processResults(results, status, pagination) {
+    if (status !== google.maps.places.PlacesServiceStatus.OK) {
+        return;
+    } else {
+        createMarkers(results);
 
+        if (pagination.hasNextPage) {
+            var moreButton = document.getElementById('more');
 
+            moreButton.disabled = false;
 
-function callback(results, status) {
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-        alert(results.length);
-        for (var i = 0; i < results.length; i++) {
-            createMarker(results[i]);
+            moreButton.addEventListener('click', function () {
+                moreButton.disabled = true;
+                pagination.nextPage();
+            });
         }
     }
 }
 
-function createMarker(place) {
-    var placeLoc = place.geometry.location;
-    var marker = new google.maps.Marker({
-        map: map,
-        position: place.geometry.location
-    });
+function createMarkers(places) {
+    var bounds = new google.maps.LatLngBounds();
+    var placesList = document.getElementById('places');
 
-    google.maps.event.addListener(marker, 'click', function() {
-        infowindow.setContent(place.name);
-        infowindow.open(map, this);
-    });
+    for (var i = 0, place; place = places[i]; i++) {
+        var image = {
+            url: place.icon,
+            size: new google.maps.Size(71, 71),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(17, 34),
+            scaledSize: new google.maps.Size(35, 35)
+        };
+
+        var marker = new google.maps.Marker({
+            map: map,
+            icon: image,
+            title: place.name,
+            position: place.geometry.location
+        });
+
+        //     placesList.innerHTML += '<li>' + place.name + '</li>';
+
+        bounds.extend(place.geometry.location);
+    }
+    map.fitBounds(bounds);
 }
