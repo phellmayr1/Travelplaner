@@ -76,14 +76,15 @@ function createMarkers(places) {
             position: place.geometry.location
         });
 
-        placesNearby.push(marker);
 
         var placeSelectedButtonStr = '<id class="fa fa-crosshairs cross" onclick="placeSelected(' + placesNearby.length + ')"/>';
+        var addFavoriteButtonStr = '<id class="fa fa-star star" onclick="addFavorite(' + placesNearby.length + ')"/>';
 
 
         $('#resultsTable').append('<tr id="' + placesNearby.length + '"><td>' + place.name + '</td><td>'
-        + placeSelectedButtonStr + '</td> <td>' + '<i class="fa fa-star star">' + '</td> </tr>');
+        + placeSelectedButtonStr + '</td> <td>' + addFavoriteButtonStr + '</td> </tr>');
 
+        placesNearby.push(marker);
         bounds.extend(place.geometry.location);
     }
     map.fitBounds(bounds);
@@ -119,6 +120,12 @@ function checkButtonVisible() {
         button.disabled = true;
     }
 }
-function placeSelected(id){
-    alert("selected"+id);
+function placeSelected(id) {
+    var marker=placesNearby[id];
+    map.setZoom(17);
+    map.panTo(marker.position);
+}
+
+function addFavorite(id) {
+    alert("selected" + id);
 }
