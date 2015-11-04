@@ -34,3 +34,8 @@ form {
 .infocircle:hover{
     color: blue;
 }
+
+#dialog {
+    width: 25%;
+    height: 25%;
+}

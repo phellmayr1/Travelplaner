@@ -2,11 +2,25 @@ $(function () {
     $("#tabs").tabs();
 });
 
-//$(function() {
-//    $( "#dialog" ).dialog();
-//});
+$(document).ready(function () {
+    $(function () {
+        $("#dialog").dialog({
+            autoOpen: false,
+            //maxWidth: 1000,
+            //maxHeight: 1000,
+            width: 850,
+            height: 850,
+            modal: true,
+            buttons: {
+                Cancel: function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+    });
+});
 
-$(function() {
+$(function () {
     $("#dialog").dialog({
         autoOpen: false,
         show: {
@@ -81,7 +95,6 @@ function createMarkers(places) {
 
     for (var i = 0, place; place = places[i]; i++) {
 
-
         var image = {
             url: place.icon,
             size: new google.maps.Size(71, 71),
@@ -117,7 +130,7 @@ function startNearbySearch() {
     var isOpen;
 
     if (radius == "" || radius == 0) {
-        radius = 10000;
+        radius = 50000;
     }
 
     if ($('#openNow').is(":checked")) {
@@ -155,15 +168,52 @@ function addFavorite(id) {
 function loadInfo(id) {
 
 
-    $( "#dialog" ).dialog( "open" );
-    var place=placesNearby[id];
+    $("#dialog").dialog("open", {width: 600, height: 500});
+    var place = placesNearby[id];
 
     var request = {reference: place.reference};
     service.getDetails(request, function (details, status) {
+        $("#detailsTable").html("");
+        $("#placeImage").html("");
 
-         //      alert(details.website);
-        $( "#dialog").html(details.website+"");
+        var photos = details.photos;
+        if (!photos) {
+            //return;
+        } else {
 
+            for (var i = 0, photo; photo = photos[i]; i++) {
+
+                $("#placeImage").append('<img src="' + photos[i].getUrl({
+                    'maxWidth': 800,
+                    'maxHeight': 800
+                }) + '"></img>');
+            }
+        }
+
+
+        if (details.name != null) {
+            $("#detailsTable").append("<tr><td>Name:</td><td>" + details.name + "</td></tr>");
+        }
+
+        if (details.website != null) {
+            $("#detailsTable").append('<tr><td>Website:</td><td><a href="' + details.website + '">' + details.website + '</a></td></tr>');
+        }
+
+        if (details.formatted_address != null) {
+            $("#detailsTable").append("<tr><td>Adresse:</td><td>" + details.formatted_address + "</td></tr>");
+        }
+
+        if (details.formatted_phone_number != null) {
+            $("#detailsTable").append("<tr><td>Telefon:</td><td>" + details.formatted_phone_number + "</td></tr>");
+        }
+
+        if (details.rating != null) {
+            $("#detailsTable").append("<tr><td>Bewertung:</td><td>" + details.rating + "</td></tr>");
+        }
+
+        if (details.text != null) {
+            $("#detailsTable").append("<tr><td>Text:</td><td>" + details.text + "</td></tr>");
+        }
 
 
         //google.maps.event.addListener(marker, 'click', function() {

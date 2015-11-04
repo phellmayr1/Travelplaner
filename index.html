@@ -36,9 +36,11 @@
 
                 <div class="form-group has-feedback">
                     <label for="inputRadius" class="control-label">Suchradius in Meter</label>
+
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-dot-circle-o"></i></span>
-                        <input type="text" pattern="\b0*([1-9][0-9]{0,3}|[1-4][0-9]{4}|50000)\b" maxlength="15" class="form-control" onkeyup="checkButtonVisible()" id="inputRadius" placeholder="">
+                        <input type="text" pattern="\b0*([1-9][0-9]{0,3}|[1-4][0-9]{4}|50000)\b" maxlength="15"
+                               class="form-control" onkeyup="checkButtonVisible()" id="inputRadius" placeholder="">
                     </div>
                     <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                     <span class="help-block with-errors">Radius muss zwischen 1 und 50000 sein</span>
@@ -49,6 +51,7 @@
                             <input type="checkbox" id="openNow">
                             Geöffnet
                         </label>
+
                         <div class="help-block with-errors"></div>
                     </div>
                 </div>
@@ -69,6 +72,7 @@
 
         </div>
         <div id="tabs-2">
+
         </div>
         <div id="tabs-3">
         </div>
@@ -78,11 +82,22 @@
 <div id="mapView">
     <div id="map"></div>
 
-    <div id="dialog" title="Basic dialog">
-        <p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
+    <div id="dialog" title="Detailinfos">
+        <table id="detailsTable">
+            <tbody>
+            </tbody>
+        </table>
+
+        <div id="placeImage">
+
+            <!--<img src="https://lh5.googleusercontent.com/-YAEDieBkTbU/VNCcf0be80I/AAAAAAAAAYg/rCD8eqF-FxM/w800-h800-k/" alt="W3Schools.com">-->
+
+        </div>
+
     </div>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8FCxwxSQzmmfOW3ou96ahIXA8g0rOccE&signed_in=true&libraries=places&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8FCxwxSQzmmfOW3ou96ahIXA8g0rOccE&signed_in=true&libraries=places&callback=initMap"
+            async defer></script>
 
 </div>
 
