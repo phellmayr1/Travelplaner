@@ -106,14 +106,7 @@ function initMap() {
     }
 
 
-
-
-    var input = /** @type {!HTMLInputElement} */(
-        document.getElementById('pac-input'));
-
-    //var types = document.getElementById('type-selector');
-    //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-    //map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
+    var input = (document.getElementById('pac-input'));
 
     var autocomplete = new google.maps.places.Autocomplete(input);
     autocomplete.bindTo('bounds', map);
@@ -125,7 +118,7 @@ function initMap() {
     });
     //
 
-    autocomplete.addListener('place_changed', function() {
+    autocomplete.addListener('place_changed', function () {
         infowindow.close();
         marker.setVisible(false);
         var place = autocomplete.getPlace();
@@ -137,9 +130,9 @@ function initMap() {
             map.fitBounds(place.geometry.viewport);
         } else {
             map.setCenter(place.geometry.location);
-            map.setZoom(17);  // Why 17? Because it looks good.
+            map.setZoom(17);
         }
-        marker.setIcon(/** @type {google.maps.Icon} */({
+        marker.setIcon(({
             url: place.icon,
             size: new google.maps.Size(71, 71),
             origin: new google.maps.Point(0, 0),
@@ -179,12 +172,6 @@ function initMap() {
     //setupClickListener('changetype-geocode', ['geocode']);
 
 
-
-
-
-
-
-
 }
 
 function processResults(results, status, pagination) {
@@ -212,7 +199,7 @@ function createMarkers(places) {
 
     for (var i = 0, place; place = places[i]; i++) {
 
-        //This hack is implemented, cause otherwise Eastern Europe is always the first entry in the list although its more than 50000m away
+        //This hack is implemented, cause otherwise Eastern Europe is always the first entry in the list although its more than 50000m away, very strange
         if (place.name != "Eastern Europe") {
 
             var image = {
