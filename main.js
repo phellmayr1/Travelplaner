@@ -1,7 +1,16 @@
+var isStorageSupported;
+
 $(function () {
     $("#tabs").tabs();
 
     document.getElementById("findMoreButton").style.visibility="hidden";
+
+    if(typeof(Storage) !== "undefined") {
+     isStorageSupported=true;
+    } else {
+     isStorageSupported=false;
+        alert("Local Storage is not supported with this Browser, you can not pin Locations");
+    }
 });
 
 $(document).ready(function () {
@@ -117,7 +126,7 @@ function createMarkers(places) {
 
             var placeSelectedButtonStr = '<id class="fa fa-crosshairs cross" onclick="placeSelected(' + markersNearby.length + ')"/>';
             var infoButtonStr = '<id class="fa fa-info-circle infocircle" onclick="loadInfo(' + markersNearby.length + ')"/>';
-            var addFavoriteButtonStr = '<id class="fa fa-star star" onclick="addFavorite(' + markersNearby.length + ')"/>';
+            var addFavoriteButtonStr = '<id class="fa fa-thumb-tack star" onclick="addFavorite(' + markersNearby.length + ')"/>';
 
 
             $('#resultsTable').append('<tr id="' + markersNearby.length + '"><td>' + place.name + '</td><td>' + infoButtonStr + '</td><td>'
@@ -197,7 +206,7 @@ function loadInfo(id) {
                 }) + '"></img>');
             }
         }else{
-            $("#placeImage").append("Für diese Location sind leider keine Fotos verfügbar.");
+            $("#placeImage").append("<br><br>Für diese Location sind leider keine Fotos verfügbar.");
         }
         if (details.name != null) {
             $("#detailsTable").append("<tr><td>Name:</td><td>" + details.name + "</td></tr>");
