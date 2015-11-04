@@ -2,8 +2,27 @@ $(function () {
     $("#tabs").tabs();
 });
 
+//$(function() {
+//    $( "#dialog" ).dialog();
+//});
+
+$(function() {
+    $("#dialog").dialog({
+        autoOpen: false,
+        show: {
+            effect: "blind",
+            duration: 1000
+        },
+        hide: {
+            effect: "explode",
+            duration: 1000
+        }
+    });
+});
+
 var map;
 
+var markersNearby = [];
 var placesNearby = [];
 var service;
 
@@ -78,27 +97,16 @@ function createMarkers(places) {
             position: place.geometry.location
         });
 
-        var request = {reference: place.reference};
-        service.getDetails(request, function (details, status) {
-
-//                alert(details.website);
-
-            //google.maps.event.addListener(marker, 'click', function() {
-            //    alert(details.website);
-            //    infowindow.setContent(details.name + "<br />" + details.formatted_address +"<br />" + details.website + "<br />" + details.rating + "<br />" + details.formatted_phone_number);
-            //    infowindow.open(map, this);
-            //});
-        });
-
-        var placeSelectedButtonStr = '<id class="fa fa-crosshairs cross" onclick="placeSelected(' + placesNearby.length + ')"/>';
-        var infoButtonStr = '<id class="fa fa-info-circle infocircle" onclick="loadInfo(' + placesNearby.length + ')"/>';
-        var addFavoriteButtonStr = '<id class="fa fa-star star" onclick="addFavorite(' + placesNearby.length + ')"/>';
+        var placeSelectedButtonStr = '<id class="fa fa-crosshairs cross" onclick="placeSelected(' + markersNearby.length + ')"/>';
+        var infoButtonStr = '<id class="fa fa-info-circle infocircle" onclick="loadInfo(' + markersNearby.length + ')"/>';
+        var addFavoriteButtonStr = '<id class="fa fa-star star" onclick="addFavorite(' + markersNearby.length + ')"/>';
 
 
-        $('#resultsTable').append('<tr id="' + placesNearby.length + '"><td>' + place.name + '</td><td>' + infoButtonStr + '</td><td>'
+        $('#resultsTable').append('<tr id="' + markersNearby.length + '"><td>' + place.name + '</td><td>' + infoButtonStr + '</td><td>'
         + placeSelectedButtonStr + '</td> <td>' + addFavoriteButtonStr + '</td> </tr>');
 
-        placesNearby.push(marker);
+        markersNearby.push(marker);
+        placesNearby.push(place)
         bounds.extend(place.geometry.location);
     }
     map.fitBounds(bounds);
@@ -135,7 +143,7 @@ function checkButtonVisible() {
     }
 }
 function placeSelected(id) {
-    var marker = placesNearby[id];
+    var marker = markersNearby[id];
     map.setZoom(17);
     map.panTo(marker.position);
 }
@@ -145,5 +153,25 @@ function addFavorite(id) {
 }
 
 function loadInfo(id) {
+
+
+    $( "#dialog" ).dialog( "open" );
+    var place=placesNearby[id];
+
+    var request = {reference: place.reference};
+    service.getDetails(request, function (details, status) {
+
+         //      alert(details.website);
+        $( "#dialog").html(details.website+"");
+
+
+
+        //google.maps.event.addListener(marker, 'click', function() {
+        //    alert(details.website);
+        //    infowindow.setContent(details.name + "<br />" + details.formatted_address +"<br />" + details.website + "<br />" + details.rating + "<br />" + details.formatted_phone_number);
+        //    infowindow.open(map, this);
+        //});
+    });
+
 
 }
