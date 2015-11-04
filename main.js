@@ -204,26 +204,32 @@ function placeSelected(id) {
 
     var place = placesNearby[id];
 
-    //alert(place.name);
+    service = new google.maps.places.PlacesService(map);
 
-    var image = {
-        url: place.icon,
-        size: new google.maps.Size(71, 71),
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(35, 35)
-    };
+    var request = {reference: place.reference};
+    service.getDetails(request, function (details, status) {
 
-    var marker = new google.maps.Marker({
-        map: map,
-        icon: image,
-        title: place.name,
-        position: place.geometry.location
+        var image = {
+            url: place.icon,
+            size: new google.maps.Size(71, 71),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(17, 34),
+            scaledSize: new google.maps.Size(35, 35)
+        };
+
+        var marker = new google.maps.Marker({
+            map: map,
+            icon: image,
+            title: place.name,
+            position: details.geometry.location
+        });
+
+        //var marker = markersNearby[id];
+        map.setZoom(17);
+        map.panTo(marker.position);
     });
 
-    //var marker = markersNearby[id];
-    map.setZoom(17);
-    map.panTo(marker.position);
+
 }
 
 function addFavorite(id) {
@@ -235,6 +241,15 @@ function addFavorite(id) {
     savedPlaces.push(placesNearby[id]);
 
     localStorage.setItem("savedPlaces", JSON.stringify(savedPlaces));
+
+    var placeSelectedButtonStr = '<id class="fa fa-crosshairs cross" onclick="placeSelected(' + placesNearby.length + ')"/>';
+    var infoButtonStr = '<id class="fa fa-info-circle infocircle" onclick="loadInfo(' + placesNearby.length + ')"/>';
+
+
+    $('#pinsTable').append('<tr id="' + placesNearby.length + '"><td>' + placesNearby[id].name + '</td><td>' + infoButtonStr + '</td><td>'
+    + placeSelectedButtonStr + '</td> <td>' + '' + '</td> </tr>');
+
+    placesNearby.push(placesNearby[id]);
 
     //alert(savedPlaces.length);
 }
