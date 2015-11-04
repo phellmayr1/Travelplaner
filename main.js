@@ -180,6 +180,7 @@ function startNearbySearch() {
 
     $('#resultsTable').html("");
     placesNearby = [];
+    initPins();
 
     document.getElementById("findMoreButton").style.visibility = "visible";
     service = new google.maps.places.PlacesService(map);
@@ -202,6 +203,8 @@ function checkButtonVisible() {
 function placeSelected(id) {
 
     var place = placesNearby[id];
+
+    //alert(place.name);
 
     var image = {
         url: place.icon,
@@ -241,10 +244,15 @@ function loadInfo(id) {
     $("#dialog").dialog("open", {width: 600, height: 500});
     var place = placesNearby[id];
 
+    //alert(place.reference);
     var request = {reference: place.reference};
+    service = new google.maps.places.PlacesService(map);
+
     service.getDetails(request, function (details, status) {
         $("#detailsTable").html("");
         $("#placeImage").html("");
+
+        //alert(details.name);
 
         var photos = details.photos;
         if (photos) {

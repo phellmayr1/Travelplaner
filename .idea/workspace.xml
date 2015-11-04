@@ -54,8 +54,8 @@
       <file leaf-file-name="main.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.26534295" vertical-offset="483" max-vertical-offset="6132">
-              <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.32851985" vertical-offset="5005" max-vertical-offset="6300">
+              <caret line="247" column="27" selection-start-line="247" selection-start-column="27" selection-end-line="247" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -454,7 +454,7 @@
       <workItem from="1446561591029" duration="8403000" />
       <workItem from="1446570722501" duration="1673000" />
       <workItem from="1446631790210" duration="40000" />
-      <workItem from="1446644729518" duration="15105000" />
+      <workItem from="1446644729518" duration="16382000" />
     </task>
     <task id="LOCAL-00001" summary="added regex and inputs">
       <created>1446397019140</created>
@@ -564,11 +564,17 @@
       <option name="project" value="LOCAL" />
       <updated>1446657825836</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="added pinnedPlaces">
+      <created>1446661041283</created>
+      <option name="number" value="00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1446661041283</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="40871000" />
+    <option name="totallyTimeSpent" value="42148000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -635,7 +641,8 @@
     <MESSAGE value="replaced favorite with pin button" />
     <MESSAGE value="place information with photos works" />
     <MESSAGE value="saving and showing with local storage works" />
-    <option name="LAST_COMMIT_MESSAGE" value="saving and showing with local storage works" />
+    <MESSAGE value="added pinnedPlaces" />
+    <option name="LAST_COMMIT_MESSAGE" value="added pinnedPlaces" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -997,8 +1004,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.26534295" vertical-offset="483" max-vertical-offset="6132">
-          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.32851985" vertical-offset="5005" max-vertical-offset="6300">
+          <caret line="247" column="27" selection-start-line="247" selection-start-column="27" selection-end-line="247" selection-end-column="27" />
           <folding />
         </state>
       </provider>
