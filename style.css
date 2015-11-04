@@ -25,8 +25,12 @@ form {
 }
 
 .cross:hover{
-    color: blue;
+    color: green;
 }
 .star:hover{
     color: yellow;
+}
+
+.infocircle:hover{
+    color: blue;
 }

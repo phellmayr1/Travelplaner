@@ -5,7 +5,7 @@ $(function () {
 var map;
 
 var placesNearby = [];
-
+var service;
 
 function initMap() {
 
@@ -61,6 +61,8 @@ function createMarkers(places) {
     var placesList = document.getElementById('places');
 
     for (var i = 0, place; place = places[i]; i++) {
+
+
         var image = {
             url: place.icon,
             size: new google.maps.Size(71, 71),
@@ -76,12 +78,24 @@ function createMarkers(places) {
             position: place.geometry.location
         });
 
+        var request = {reference: place.reference};
+        service.getDetails(request, function (details, status) {
+
+//                alert(details.website);
+
+            //google.maps.event.addListener(marker, 'click', function() {
+            //    alert(details.website);
+            //    infowindow.setContent(details.name + "<br />" + details.formatted_address +"<br />" + details.website + "<br />" + details.rating + "<br />" + details.formatted_phone_number);
+            //    infowindow.open(map, this);
+            //});
+        });
 
         var placeSelectedButtonStr = '<id class="fa fa-crosshairs cross" onclick="placeSelected(' + placesNearby.length + ')"/>';
+        var infoButtonStr = '<id class="fa fa-info-circle infocircle" onclick="loadInfo(' + placesNearby.length + ')"/>';
         var addFavoriteButtonStr = '<id class="fa fa-star star" onclick="addFavorite(' + placesNearby.length + ')"/>';
 
 
-        $('#resultsTable').append('<tr id="' + placesNearby.length + '"><td>' + place.name + '</td><td>'
+        $('#resultsTable').append('<tr id="' + placesNearby.length + '"><td>' + place.name + '</td><td>' + infoButtonStr + '</td><td>'
         + placeSelectedButtonStr + '</td> <td>' + addFavoriteButtonStr + '</td> </tr>');
 
         placesNearby.push(marker);
@@ -103,7 +117,7 @@ function startNearbySearch() {
     } else {
         isOpen = false;
     }
-    var service = new google.maps.places.PlacesService(map);
+    service = new google.maps.places.PlacesService(map);
     service.nearbySearch({
         location: {lat: pos.lat, lng: pos.lng},
         radius: radius,
@@ -121,11 +135,15 @@ function checkButtonVisible() {
     }
 }
 function placeSelected(id) {
-    var marker=placesNearby[id];
+    var marker = placesNearby[id];
     map.setZoom(17);
     map.panTo(marker.position);
 }
 
 function addFavorite(id) {
     alert("selected" + id);
+}
+
+function loadInfo(id) {
+
 }
