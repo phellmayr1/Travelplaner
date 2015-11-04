@@ -3,15 +3,34 @@ var isStorageSupported;
 $(function () {
     $("#tabs").tabs();
 
-    document.getElementById("findMoreButton").style.visibility="hidden";
+    document.getElementById("findMoreButton").style.visibility = "hidden";
 
-    if(typeof(Storage) !== "undefined") {
-     isStorageSupported=true;
+    if (typeof(Storage) !== "undefined") {
+        isStorageSupported = true;
     } else {
-     isStorageSupported=false;
+        isStorageSupported = false;
         alert("Local Storage is not supported with this Browser, you can not pin Locations");
     }
+
+    initPins();
+
 });
+
+function initPins() {
+
+    var pinnedPlaces = JSON.parse(localStorage.getItem("savedPlaces"));
+
+    $("#pinsTable").html("");
+    for (var i = 0, place; place = pinnedPlaces[i]; i++) {
+
+        var placeSelectedButtonStr = '<id class="fa fa-crosshairs cross" onclick="placeSelected(' + markersNearby.length + ')"/>';
+        var infoButtonStr = '<id class="fa fa-info-circle infocircle" onclick="loadInfo(' + markersNearby.length + ')"/>';
+        var addFavoriteButtonStr = '<id class="fa fa-thumb-tack star" onclick="addFavorite(' + markersNearby.length + ')"/>';
+
+        $('#pinsTable').append('<tr id="' + markersNearby.length + '"><td>' + place.name + '</td><td>' + infoButtonStr + '</td><td>'
+        + placeSelectedButtonStr + '</td> <td>' + addFavoriteButtonStr + '</td> </tr>');
+    }
+}
 
 $(document).ready(function () {
     $(function () {
@@ -74,7 +93,7 @@ function initMap() {
 
         }, function () {
             alert("locationerror, Chrome doese not support Geolocation with local files due to security reasons");
-          //  handleLocationError(true, infoWindow, map.getCenter());
+            //  handleLocationError(true, infoWindow, map.getCenter());
         });
     } else {
         // Browser doesn't support Geolocation
@@ -108,7 +127,7 @@ function createMarkers(places) {
     for (var i = 0, place; place = places[i]; i++) {
 
         //This hack is implemented, cause otherwise Eastern Europe is always the first entry in the list although its more than 50000m away
-        if(place.name!="Eastern Europe") {
+        if (place.name != "Eastern Europe") {
 
             var image = {
                 url: place.icon,
@@ -159,7 +178,7 @@ function startNearbySearch() {
     markersNearby = [];
     placesNearby = [];
 
-    document.getElementById("findMoreButton").style.visibility="visible";
+    document.getElementById("findMoreButton").style.visibility = "visible";
     service = new google.maps.places.PlacesService(map);
     service.nearbySearch({
         location: {lat: pos.lat, lng: pos.lng},
@@ -184,7 +203,16 @@ function placeSelected(id) {
 }
 
 function addFavorite(id) {
-    alert("selected" + id);
+    var savedPlaces = JSON.parse(localStorage.getItem("savedPlaces"));
+
+    if (savedPlaces == null) {
+        savedPlaces = [];
+    }
+    savedPlaces.push(placesNearby[id]);
+
+    localStorage.setItem("savedPlaces", JSON.stringify(savedPlaces));
+
+    alert(savedPlaces.length);
 }
 
 function loadInfo(id) {
@@ -198,7 +226,7 @@ function loadInfo(id) {
         $("#placeImage").html("");
 
         var photos = details.photos;
-        if (photos){
+        if (photos) {
             for (var i = 0, photo; photo = photos[i]; i++) {
 
                 $("#placeImage").append('<img src="' + photos[i].getUrl({
@@ -206,7 +234,7 @@ function loadInfo(id) {
                     'maxHeight': 800
                 }) + '"></img>');
             }
-        }else{
+        } else {
             $("#placeImage").append("<br><br>Für diese Location sind leider keine Fotos verfügbar.");
         }
         if (details.name != null) {
