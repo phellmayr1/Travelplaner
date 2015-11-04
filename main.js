@@ -73,11 +73,12 @@ function initMap() {
 
 
         }, function () {
-            handleLocationError(true, infoWindow, map.getCenter());
+            alert("locationerror, Chrome doese not support Geolocation with local files due to security reasons");
+          //  handleLocationError(true, infoWindow, map.getCenter());
         });
     } else {
         // Browser doesn't support Geolocation
-        handleLocationError(false, infoWindow, map.getCenter());
+        alert("no geolocation support");
     }
 }
 
