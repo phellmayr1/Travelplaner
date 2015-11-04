@@ -31,8 +31,8 @@ function initPins() {
 
         for (var i = 0, place; place = pinnedPlaces[i]; i++) {
 
-            var placeSelectedButtonStr = '<id class="fa fa-crosshairs cross" onclick="placeSelected(' + placesNearby.length + ')"/>';
-            var infoButtonStr = '<id class="fa fa-info-circle infocircle" onclick="loadInfo(' + placesNearby.length + ')"/>';
+            var placeSelectedButtonStr = '<i class="fa fa-crosshairs cross" onclick="placeSelected(' + placesNearby.length + ')"/>';
+            var infoButtonStr = '<i class="fa fa-info-circle infocircle" onclick="loadInfo(' + placesNearby.length + ')"/>';
             //   var addFavoriteButtonStr = '<id class="fa fa-thumb-tack star" onclick="addFavorite(' + placesNearby.length + ')"/>';
 
             $('#pinsTable').append('<tr id="' + placesNearby.length + '"><td>' + place.name + '</td><td>' + infoButtonStr + '</td><td>'
@@ -141,6 +141,20 @@ function initMap() {
         }));
         marker.setPosition(place.geometry.location);
         marker.setVisible(true);
+
+        $('#searchActions').html("");
+
+        var placeSelectedButtonStr = '<i class="fa fa-crosshairs fa-3x cross" onclick="placeSelected(' + placesNearby.length + ')"/>';
+        var infoButtonStr = '<i class="fa fa-info-circle fa-3x infocircle" onclick="loadInfo(' + placesNearby.length + ')"/>';
+        var addFavoriteButtonStr = '<i class="fa fa-thumb-tack fa-3x star" onclick="addFavorite(' + placesNearby.length + ')"/>';
+
+        placesNearby.push(place);
+
+        $('#searchActions').append("<br><br>");
+        $('#searchActions').append(placeSelectedButtonStr);
+        $('#searchActions').append(infoButtonStr);
+        $('#searchActions').append(addFavoriteButtonStr);
+
     });
     //
     //
@@ -217,9 +231,9 @@ function createMarkers(places) {
                 position: place.geometry.location
             });
 
-            var placeSelectedButtonStr = '<id class="fa fa-crosshairs cross" onclick="placeSelected(' + placesNearby.length + ')"/>';
-            var infoButtonStr = '<id class="fa fa-info-circle infocircle" onclick="loadInfo(' + placesNearby.length + ')"/>';
-            var addFavoriteButtonStr = '<id class="fa fa-thumb-tack star" onclick="addFavorite(' + placesNearby.length + ')"/>';
+            var placeSelectedButtonStr = '<i class="fa fa-crosshairs cross" onclick="placeSelected(' + placesNearby.length + ')"/>';
+            var infoButtonStr = '<i class="fa fa-info-circle infocircle" onclick="loadInfo(' + placesNearby.length + ')"/>';
+            var addFavoriteButtonStr = '<i class="fa fa-thumb-tack star" onclick="addFavorite(' + placesNearby.length + ')"/>';
 
 
             $('#resultsTable').append('<tr id="' + placesNearby.length + '"><td>' + place.name + '</td><td>' + infoButtonStr + '</td><td>'
@@ -296,8 +310,6 @@ function placeSelected(id) {
         map.setZoom(17);
         map.panTo(marker.position);
     });
-
-
 }
 
 function addFavorite(id) {
@@ -310,8 +322,8 @@ function addFavorite(id) {
 
     localStorage.setItem("savedPlaces", JSON.stringify(savedPlaces));
 
-    var placeSelectedButtonStr = '<id class="fa fa-crosshairs cross" onclick="placeSelected(' + placesNearby.length + ')"/>';
-    var infoButtonStr = '<id class="fa fa-info-circle infocircle" onclick="loadInfo(' + placesNearby.length + ')"/>';
+    var placeSelectedButtonStr = '<i class="fa fa-crosshairs cross" onclick="placeSelected(' + placesNearby.length + ')"/>';
+    var infoButtonStr = '<i class="fa fa-info-circle infocircle" onclick="loadInfo(' + placesNearby.length + ')"/>';
 
 
     $('#pinsTable').append('<tr id="' + placesNearby.length + '"><td>' + placesNearby[id].name + '</td><td>' + infoButtonStr + '</td><td>'
@@ -373,6 +385,4 @@ function loadInfo(id) {
             $("#detailsTable").append("<tr><td>Text:</td><td>" + details.text + "</td></tr>");
         }
     });
-
-
 }
