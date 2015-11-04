@@ -1,5 +1,7 @@
 $(function () {
     $("#tabs").tabs();
+
+    document.getElementById("findMoreButton").style.visibility="hidden";
 });
 
 $(document).ready(function () {
@@ -77,7 +79,7 @@ function processResults(results, status, pagination) {
         createMarkers(results);
 
         if (pagination.hasNextPage) {
-            var moreButton = document.getElementById('more');
+            var moreButton = document.getElementById('findMoreButton');
 
             moreButton.disabled = false;
 
@@ -95,32 +97,36 @@ function createMarkers(places) {
 
     for (var i = 0, place; place = places[i]; i++) {
 
-        var image = {
-            url: place.icon,
-            size: new google.maps.Size(71, 71),
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(17, 34),
-            scaledSize: new google.maps.Size(35, 35)
-        };
+        //This hack is implemented, cause otherwise Eastern Europe is always the first entry in the list although its more than 50000m away
+        if(place.name!="Eastern Europe") {
 
-        var marker = new google.maps.Marker({
-            map: map,
-            icon: image,
-            title: place.name,
-            position: place.geometry.location
-        });
+            var image = {
+                url: place.icon,
+                size: new google.maps.Size(71, 71),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(17, 34),
+                scaledSize: new google.maps.Size(35, 35)
+            };
 
-        var placeSelectedButtonStr = '<id class="fa fa-crosshairs cross" onclick="placeSelected(' + markersNearby.length + ')"/>';
-        var infoButtonStr = '<id class="fa fa-info-circle infocircle" onclick="loadInfo(' + markersNearby.length + ')"/>';
-        var addFavoriteButtonStr = '<id class="fa fa-star star" onclick="addFavorite(' + markersNearby.length + ')"/>';
+            var marker = new google.maps.Marker({
+                map: map,
+                icon: image,
+                title: place.name,
+                position: place.geometry.location
+            });
+
+            var placeSelectedButtonStr = '<id class="fa fa-crosshairs cross" onclick="placeSelected(' + markersNearby.length + ')"/>';
+            var infoButtonStr = '<id class="fa fa-info-circle infocircle" onclick="loadInfo(' + markersNearby.length + ')"/>';
+            var addFavoriteButtonStr = '<id class="fa fa-star star" onclick="addFavorite(' + markersNearby.length + ')"/>';
 
 
-        $('#resultsTable').append('<tr id="' + markersNearby.length + '"><td>' + place.name + '</td><td>' + infoButtonStr + '</td><td>'
-        + placeSelectedButtonStr + '</td> <td>' + addFavoriteButtonStr + '</td> </tr>');
+            $('#resultsTable').append('<tr id="' + markersNearby.length + '"><td>' + place.name + '</td><td>' + infoButtonStr + '</td><td>'
+            + placeSelectedButtonStr + '</td> <td>' + addFavoriteButtonStr + '</td> </tr>');
 
-        markersNearby.push(marker);
-        placesNearby.push(place)
-        bounds.extend(place.geometry.location);
+            markersNearby.push(marker);
+            placesNearby.push(place)
+            bounds.extend(place.geometry.location);
+        }
     }
     map.fitBounds(bounds);
 }
@@ -138,6 +144,12 @@ function startNearbySearch() {
     } else {
         isOpen = false;
     }
+
+    $('#resultsTable').html("");
+    markersNearby = [];
+    placesNearby = [];
+
+    document.getElementById("findMoreButton").style.visibility="visible";
     service = new google.maps.places.PlacesService(map);
     service.nearbySearch({
         location: {lat: pos.lat, lng: pos.lng},
@@ -167,7 +179,6 @@ function addFavorite(id) {
 
 function loadInfo(id) {
 
-
     $("#dialog").dialog("open", {width: 600, height: 500});
     var place = placesNearby[id];
 
@@ -177,10 +188,7 @@ function loadInfo(id) {
         $("#placeImage").html("");
 
         var photos = details.photos;
-        if (!photos) {
-            //return;
-        } else {
-
+        if (photos){
             for (var i = 0, photo; photo = photos[i]; i++) {
 
                 $("#placeImage").append('<img src="' + photos[i].getUrl({
@@ -188,9 +196,9 @@ function loadInfo(id) {
                     'maxHeight': 800
                 }) + '"></img>');
             }
+        }else{
+            $("#placeImage").append("Für diese Location sind leider keine Fotos verfügbar.");
         }
-
-
         if (details.name != null) {
             $("#detailsTable").append("<tr><td>Name:</td><td>" + details.name + "</td></tr>");
         }
@@ -214,13 +222,6 @@ function loadInfo(id) {
         if (details.text != null) {
             $("#detailsTable").append("<tr><td>Text:</td><td>" + details.text + "</td></tr>");
         }
-
-
-        //google.maps.event.addListener(marker, 'click', function() {
-        //    alert(details.website);
-        //    infowindow.setContent(details.name + "<br />" + details.formatted_address +"<br />" + details.website + "<br />" + details.rating + "<br />" + details.formatted_phone_number);
-        //    infowindow.open(map, this);
-        //});
     });
 
 
