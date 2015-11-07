@@ -1,6 +1,8 @@
 #search {
     float: left;
     width: 30%;
+    overflow-y: auto;
+    height: 100%;
 }
 
 html, body {
@@ -8,34 +10,43 @@ html, body {
     margin: 0;
     padding: 0;
 }
+
 #mapView {
     float: right;
     width: 70%;
     height: 100%;
 }
+
 #map {
     height: 100%;
 }
+
 form {
     max-width: 480px;
     margin: auto;
 }
-.form-group >[class*="col-"] + .ws-errorbox {
+
+.form-group > [class*="col-"] + .ws-errorbox {
     padding: 0 15px;
 }
 
-.cross:hover{
+.cross:hover {
     color: green;
 }
-.star:hover{
+
+.star:hover {
     color: red;
 }
 
-.infocircle:hover{
+.infocircle:hover {
     color: blue;
 }
 
 #dialog {
     width: 25%;
     height: 25%;
+}
+
+#pac-input {
+    width: 100%
 }

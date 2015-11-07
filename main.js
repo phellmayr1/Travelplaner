@@ -84,7 +84,7 @@ function initMap() {
 
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-           pos = {
+            pos = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             };
@@ -99,10 +99,10 @@ function initMap() {
             alert("locationerror, Chrome does not support Geolocation with local files due to security reasons");
 
             //Set default Coordinates to Linz if it is not possible to get current coordinates
-                pos = {
-                    lat: 48.306940,
-                    lng: 14.285830
-                };
+            pos = {
+                lat: 48.306940,
+                lng: 14.285830
+            };
         });
     } else {
         // Browser doesn't support Geolocation
@@ -168,7 +168,7 @@ function processResults(results, status, pagination) {
     } else {
         createMarkers(results);
 
-            var moreButton = document.getElementById('findMoreButton');
+        var moreButton = document.getElementById('findMoreButton');
         if (pagination.hasNextPage) {
 
             moreButton.disabled = false;
@@ -177,8 +177,8 @@ function processResults(results, status, pagination) {
                 moreButton.disabled = true;
                 pagination.nextPage();
             });
-        }else{
-            moreButton.disabled = true;
+        } else {
+           moreButton.disabled = true;
         }
     }
 }
