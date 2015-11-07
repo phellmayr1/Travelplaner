@@ -53,7 +53,7 @@ $(document).ready(function () {
             height: 850,
             modal: true,
             buttons: {
-                Cancel: function () {
+                Abbrechen: function () {
                     $(this).dialog("close");
                 }
             }
@@ -78,27 +78,31 @@ $(function () {
 function initMap() {
 
     map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: -38.321, lng: 172.462},
+        center: {lat: 48.306940, lng: 14.285830},
         zoom: 10
     });
-    infoWindow = new google.maps.InfoWindow({map: map});
-
 
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-            pos = {
+           pos = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             };
 
+            infoWindow = new google.maps.InfoWindow({map: map});
             infoWindow.setPosition(pos);
             infoWindow.setContent('You are here');
             map.setCenter(pos);
 
 
         }, function () {
-            alert("locationerror, Chrome doese not support Geolocation with local files due to security reasons");
-            //  handleLocationError(true, infoWindow, map.getCenter());
+            alert("locationerror, Chrome does not support Geolocation with local files due to security reasons");
+
+            //Set default Coordinates to Linz if it is not possible to get current coordinates
+                pos = {
+                    lat: 48.306940,
+                    lng: 14.285830
+                };
         });
     } else {
         // Browser doesn't support Geolocation
@@ -156,36 +160,6 @@ function initMap() {
         $('#searchActions').append(addFavoriteButtonStr);
 
     });
-    //
-    //
-    //    var address = '';
-    //    if (place.address_components) {
-    //        address = [
-    //            (place.address_components[0] && place.address_components[0].short_name || ''),
-    //            (place.address_components[1] && place.address_components[1].short_name || ''),
-    //            (place.address_components[2] && place.address_components[2].short_name || '')
-    //        ].join(' ');
-    //    }
-    //
-    //    infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
-    //    infowindow.open(map, marker);
-    //});
-    //
-    //// Sets a listener on a radio button to change the filter type on Places
-    //// Autocomplete.
-    //function setupClickListener(id, types) {
-    //    var radioButton = document.getElementById(id);
-    //    radioButton.addEventListener('click', function() {
-    //        autocomplete.setTypes(types);
-    //    });
-    //}
-    //
-    //setupClickListener('changetype-all', []);
-    //setupClickListener('changetype-address', ['address']);
-    //setupClickListener('changetype-establishment', ['establishment']);
-    //setupClickListener('changetype-geocode', ['geocode']);
-
-
 }
 
 function processResults(results, status, pagination) {
@@ -194,8 +168,8 @@ function processResults(results, status, pagination) {
     } else {
         createMarkers(results);
 
-        if (pagination.hasNextPage) {
             var moreButton = document.getElementById('findMoreButton');
+        if (pagination.hasNextPage) {
 
             moreButton.disabled = false;
 
@@ -203,6 +177,8 @@ function processResults(results, status, pagination) {
                 moreButton.disabled = true;
                 pagination.nextPage();
             });
+        }else{
+            moreButton.disabled = true;
         }
     }
 }
